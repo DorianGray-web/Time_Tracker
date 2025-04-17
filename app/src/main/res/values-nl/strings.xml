@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Info -->
+    <string name="app_name">Tijdregistratie</string>
+
+    <!-- Welcome Screen -->
+    <string name="greeting">Welkom bij Tijdregistratie</string>
+    <string name="choose_language">Kies een taal</string>
+    <string name="language_english">Engels</string>
+    <string name="language_dutch">Nederlands</string>
+    <string name="language_ukrainian">Oekraïens</string>
+
+    <!-- Navigation -->
+    <string name="nav_settings">Instellingen</string>
+    <string name="nav_home">Startpagina</string>
+
+    <!-- Main Actions -->
+    <string name="start_tracking_button">Registratie starten</string>
+    <string name="start_timer_button">Timer starten</string>
+    <string name="stop_timer_button">Timer stoppen</string>
+    <string name="description_hint">Beschrijving</string>
+    <string name="no_active_timer_message">Geen actieve timer</string>
+    <string name="time_entries_title">Tijdregistraties</string>
+    <string name="start_time_label">Start: %1$s</string>
+    <string name="end_time_label">Einde: %1$s</string>
+    <string name="duration_label">Duur: %1$s</string>
+
+    <!-- Main Screen -->
+    <string name="main_screen_title">Tijdregistratie</string>
+    <string name="add_entry_button">Toevoegen</string>
+    <string name="edit_entry_button">Bewerken</string>
+    <string name="delete_entry_button">Registratie verwijderen</string>
+    <string name="show_overtime_switch">Overuren tonen</string>
+    <string name="with_photos_switch">Met foto\'s</string>
+
+    <!-- Form Screen -->
+    <string name="select_date_button">Selecteer datum</string>
+    <string name="select_time_button">Selecteer tijd</string>
+    <string name="label_date">Datum</string>
+    <string name="start_time">Starttijd</string>
+    <string name="end_time">Eindtijd</string>
+    <string name="comment_en_hint">Opmerking (EN)</string>
+    <string name="comment_nl_hint">Opmerking (NL)</string>
+    <string name="take_photo_button">Foto maken</string>
+    <string name="remove_photo_button">Foto verwijderen</string>
+    <string name="save_changes_button">Wijzigingen opslaan</string>
+
+    <!-- Dialog Buttons -->
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Annuleren</string>
+
+    <!-- Messages -->
+    <string name="message_entry_added">Registratie succesvol toegevoegd</string>
+    <string name="message_entry_updated">Registratie succesvol bijgewerkt</string>
+    <string name="message_entry_deleted">Registratie succesvol verwijderd</string>
+    <string name="error_adding_entry">Fout bij toevoegen: %1$s</string>
+    <string name="error_updating_entry">Fout bij bijwerken: %1$s</string>
+    <string name="error_deleting_entry">Fout bij verwijderen: %1$s</string>
+
+    <!-- Sorting -->
+    <string name="sort_by">Sorteren op</string>
+    <string name="sort_entries">Items sorteren</string>
+    <string name="duration">Duur</string>
+    <string name="cost">Kosten</string>
+    <string name="order">Volgorde</string>
+    <string name="ascending">Oplopend</string>
+    <string name="descending">Aflopend</string>
+
+    <!-- Filter -->
+    <string name="filter">Filter</string>
+    <string name="all_entries">Alle items</string>
+    <string name="today">Vandaag</string>
+    <string name="this_week">Deze week</string>
+    <string name="this_month">Deze maand</string>
+    <string name="cd_filter_all">Toon alle items</string>
+    <string name="cd_filter_today">Toon items van vandaag</string>
+    <string name="cd_filter_week">Toon items van deze week</string>
+    <string name="cd_filter_month">Toon items van deze maand</string>
+
+    <!-- Entry Edit/Delete -->
+    <string name="edit_entry_title">Registratie bewerken</string>
+    <string name="confirm_delete_title">Verwijderen bevestigen</string>
+    <string name="confirm_delete_message">Weet u zeker dat u deze registratie wilt verwijderen?</string>
+    <string name="entry_deleted_successfully">Registratie succesvol verwijderd</string>
+    <string name="entry_updated_successfully">Registratie succesvol bijgewerkt</string>
+    <string name="cd_edit_entry_screen">Scherm voor bewerken van tijdregistratie</string>
+    <string name="cd_delete_entry_button">Knop voor verwijderen van tijdregistratie</string>
+    <string name="cd_save_changes_button">Knop voor opslaan van wijzigingen</string>
+    <string name="cd_confirm_delete_dialog">Dialoog voor bevestigen van verwijderen</string>
+
+    <!-- Settings -->
+    <string name="settings">Instellingen</string>
+    <string name="theme">Thema</string>
+    <string name="language">Taal</string>
+    <string name="choose_theme">Kies thema</string>
+    <string name="future_settings">Toekomstige instellingen</string>
+    <string name="future_settings_description">Meer instellingen komen beschikbaar in toekomstige updates</string>
+    <string name="cd_settings_screen">Instellingenscherm</string>
+    <string name="cd_theme_item">Thema selectie item</string>
+    <string name="cd_language_item">Taal selectie item</string>
+</resources> 

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Info -->
+    <string name="app_name">Облік часу</string>
+
+    <!-- Welcome Screen -->
+    <string name="greeting">Ласкаво просимо до Обліку часу</string>
+    <string name="choose_language">Оберіть мову</string>
+    <string name="language_english">Англійська</string>
+    <string name="language_dutch">Нідерландська</string>
+    <string name="language_ukrainian">Українська</string>
+
+    <!-- Navigation -->
+    <string name="nav_settings">Налаштування</string>
+    <string name="nav_home">Головна</string>
+
+    <!-- Main Actions -->
+    <string name="start_tracking_button">Почати облік</string>
+    <string name="start_timer_button">Запустити таймер</string>
+    <string name="stop_timer_button">Зупинити таймер</string>
+    <string name="description_hint">Опис</string>
+    <string name="no_active_timer_message">Немає активного таймера</string>
+    <string name="time_entries_title">Записи часу</string>
+    <string name="start_time_label">Початок: %1$s</string>
+    <string name="end_time_label">Кінець: %1$s</string>
+    <string name="duration_label">Тривалість: %1$s</string>
+
+    <!-- Main Screen -->
+    <string name="main_screen_title">Облік часу</string>
+    <string name="add_entry_button">Додати</string>
+    <string name="edit_entry_button">Редагувати</string>
+    <string name="delete_entry_button">Видалити запис</string>
+    <string name="show_overtime_switch">Показати понаднормові</string>
+    <string name="with_photos_switch">З фото</string>
+
+    <!-- Form Screen -->
+    <string name="select_date_button">Обрати дату</string>
+    <string name="select_time_button">Обрати час</string>
+    <string name="label_date">Дата</string>
+    <string name="start_time">Час початку</string>
+    <string name="end_time">Час закінчення</string>
+    <string name="take_photo_button">Зробити фото</string>
+    <string name="remove_photo_button">Видалити фото</string>
+    <string name="save_changes_button">Зберегти зміни</string>
+
+    <!-- Dialog Buttons -->
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Скасувати</string>
+
+    <!-- Messages -->
+    <string name="message_entry_added">Запис успішно додано</string>
+    <string name="message_entry_updated">Запис успішно оновлено</string>
+    <string name="message_entry_deleted">Запис успішно видалено</string>
+    <string name="error_adding_entry">Помилка при додаванні: %1$s</string>
+    <string name="error_updating_entry">Помилка при оновленні: %1$s</string>
+    <string name="error_deleting_entry">Помилка при видаленні: %1$s</string>
+
+    <!-- Master-Detail -->
+    <string name="entry_details_title">Деталі запису</string>
+    <string name="select_entry_prompt">Оберіть запис для перегляду деталей</string>
+    <string name="cd_entry_has_photo">До запису додано фото</string>
+    <string name="cd_entry_photo">Фото запису</string>
+    <string name="cd_time_entry_item">Запис часу за %1$s, з %2$s до %3$s</string>
+
+    <!-- Accessibility -->
+    <string name="cd_language_selector">Вибір мови</string>
+    <string name="cd_add_entry">Додати новий запис часу</string>
+    <string name="cd_edit_entry">Редагувати запис часу</string>
+    <string name="cd_delete_entry">Видалити запис часу</string>
+    <string name="cd_take_photo">Зробити фото для запису</string>
+    <string name="cd_remove_photo">Видалити фото із запису</string>
+    <string name="cd_start_timer">Почати відлік часу</string>
+    <string name="cd_stop_timer">Зупинити відлік часу</string>
+    <string name="cd_overtime_switch">Перемкнути відображення понаднормових</string>
+    <string name="cd_photos_switch">Перемкнути відображення фото</string>
+    <string name="cd_date_picker">Вибрати дату</string>
+    <string name="cd_time_picker">Вибрати час</string>
+    <string name="cd_navigation_back">Повернутися назад</string>
+    <string name="cd_settings">Відкрити налаштування</string>
+
+    <!-- Theme Settings -->
+    <string name="theme_settings">Налаштування теми</string>
+    <string name="current_theme">Поточна тема</string>
+    <string name="select_theme">Оберіть тему</string>
+    <string name="theme_light">Світла</string>
+    <string name="theme_dark">Темна</string>
+    <string name="theme_system">Системна</string>
+    <string name="cd_theme_selector">Обрати тему додатку</string>
+
+    <!-- Sorting -->
+    <string name="sort_by">Сортувати за</string>
+    <string name="sort_entries">Сортувати записи</string>
+    <string name="duration">Тривалість</string>
+    <string name="cost">Вартість</string>
+    <string name="date">Дата</string>
+    <string name="order">Порядок</string>
+    <string name="ascending">За зростанням</string>
+    <string name="descending">За спаданням</string>
+
+    <!-- Filter -->
+    <string name="filter">Фільтр</string>
+    <string name="all_entries">Всі записи</string>
+    <string name="today">Сьогодні</string>
+    <string name="this_week">Цього тижня</string>
+    <string name="this_month">Цього місяця</string>
+    <string name="cd_filter_all">Показати всі записи</string>
+    <string name="cd_filter_today">Показати записи за сьогодні</string>
+    <string name="cd_filter_week">Показати записи за цей тиждень</string>
+    <string name="cd_filter_month">Показати записи за цей місяць</string>
+
+    <!-- Entry Edit/Delete -->
+    <string name="edit_entry_title">Редагувати запис</string>
+    <string name="confirm_delete_title">Підтвердити видалення</string>
+    <string name="confirm_delete_message">Ви впевнені, що хочете видалити цей запис?</string>
+    <string name="entry_deleted_successfully">Запис успішно видалено</string>
+    <string name="entry_updated_successfully">Запис успішно оновлено</string>
+    <string name="cd_edit_entry_screen">Екран редагування запису часу</string>
+    <string name="cd_delete_entry_button">Кнопка видалення запису часу</string>
+    <string name="cd_save_changes_button">Кнопка збереження змін</string>
+    <string name="cd_confirm_delete_dialog">Діалог підтвердження видалення</string>
+
+    <!-- Settings -->
+    <string name="settings">Налаштування</string>
+    <string name="theme">Тема</string>
+    <string name="language">Мова</string>
+    <string name="choose_theme">Оберіть тему</string>
+    <string name="future_settings">Майбутні налаштування</string>
+    <string name="future_settings_description">Більше налаштувань буде доступно в майбутніх оновленнях</string>
+    <string name="cd_settings_screen">Екран налаштувань</string>
+    <string name="cd_theme_item">Елемент вибору теми</string>
+    <string name="cd_language_item">Елемент вибору мови</string>
+
+    <!-- Backup -->
+    <string name="backup_restore">Резервне копіювання та відновлення</string>
+    <string name="create_backup">Створити резервну копію</string>
+    <string name="restore_backup">Відновити з резервної копії</string>
+    <string name="backup_created">Резервна копія створена: %s</string>
+    <string name="restore_success">Резервна копія успішно відновлена</string>
+    <string name="restore_confirmation">Ви впевнені, що хочете відновити з резервної копії? Це замінить усі поточні записи.</string>
+    <string name="confirm">Підтвердити</string>
+    <string name="cancel">Скасувати</string>
+</resources> 
