@@ -6,12 +6,11 @@ import java.time.LocalDate
 import kotlinx.coroutines.flow.Flow
 
 interface WorkEntryRepository {
-    suspend fun getAllEntries(): List<WorkEntry>
+    fun getAllEntries(): Flow<List<WorkEntry>>
     suspend fun getEntriesForWeek(weekStart: LocalDate): List<WorkEntry>
     suspend fun addEntry(entry: WorkEntry)
     suspend fun updateEntry(entry: WorkEntry)
     suspend fun deleteEntry(entryId: Long)
     suspend fun getEntry(entryId: Long): WorkEntry?
-    fun getAllEntries(): Flow<List<WorkEntry>>
     suspend fun getFilteredEntries(filter: FilterType): List<WorkEntry>
 } 

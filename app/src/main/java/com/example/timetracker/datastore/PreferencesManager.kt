@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.timetracker.ui.theme.ThemeMode
+import com.example.timetracker.domain.model.ThemeMode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -34,6 +34,7 @@ class PreferencesManager @Inject constructor(
             when (preferences[THEME_MODE]) {
                 "light" -> ThemeMode.LIGHT
                 "dark" -> ThemeMode.DARK
+                "system" -> ThemeMode.SYSTEM
                 else -> ThemeMode.SYSTEM
             }
         }

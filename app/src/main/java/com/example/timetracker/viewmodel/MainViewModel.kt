@@ -14,6 +14,7 @@ import com.example.timetracker.utils.UiMessageManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.temporal.WeekFields
@@ -104,11 +105,11 @@ class MainViewModel @Inject constructor(
             } ?: true
 
             val matchesProject = filter.projectName?.let { project ->
-                entry.description.contains(project, ignoreCase = true)
+                entry.description.contains(project /* String */, ignoreCase = true)
             } ?: true
 
             val matchesClient = filter.clientName?.let { client ->
-                entry.description.contains(client, ignoreCase = true)
+                entry.description.contains(client /* String */, ignoreCase = true)
             } ?: true
 
             val matchesOvertime = when (filter.showOvertime) {

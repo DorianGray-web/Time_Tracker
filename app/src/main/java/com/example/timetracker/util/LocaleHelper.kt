@@ -1,52 +1,38 @@
 package com.example.timetracker.util
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
+import android.content.res.Configuration
+import android.os.Build
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
 @Singleton
-class LocaleHelper @Inject constructor(
-    @ApplicationContext private val context: Context
-) {
-    private val languageKey = stringPreferencesKey("language")
-
-    suspend fun getLanguage(): String {
-        return context.dataStore.data
-            .map { preferences ->
-                preferences[languageKey] ?: Locale.getDefault().language
-            }
-            .first()
-    }
-
-    suspend fun setLanguage(languageCode: String) {
-        context.dataStore.edit { preferences ->
-            preferences[languageKey] = languageCode
-        }
-        setLocale(context, languageCode)
-    }
-
+class LocaleHelper @Inject constructor() {
     companion object {
         fun getLanguage(context: Context): String {
-            return Locale.getDefault().language
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                context.resources.configuration.locales[0].language
+            } else {
+                @Suppress("DEPRECATION")
+                context.resources.configuration.locale.language
+            }
         }
 
         fun setLocale(context: Context, languageCode: String) {
             val locale = Locale(languageCode)
             Locale.setDefault(locale)
-            val config = context.resources.configuration
-            config.setLocale(locale)
+
+            val config = Configuration(context.resources.configuration)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                config.setLocale(locale)
+            } else {
+                @Suppress("DEPRECATION")
+                config.locale = locale
+            }
+
             context.createConfigurationContext(config)
+            @Suppress("DEPRECATION")
             context.resources.updateConfiguration(config, context.resources.displayMetrics)
         }
     }

@@ -13,8 +13,10 @@ import com.example.timetracker.util.LocaleHelper
 import com.example.timetracker.util.PdfGenerator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -31,8 +33,6 @@ import android.graphics.Color
 import android.graphics.pdf.PdfDocument
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 
 enum class SortOption(val label: String) {
     DATE_ASC("Date ↑"),
@@ -95,7 +95,7 @@ class WorkViewModel @Inject constructor(
 
     private fun loadWorkEntries() {
         viewModelScope.launch {
-            val entries = repository.getAllWorkEntries()
+            val entries = repository.getAllEntries()
             _allWorkEntries.value = entries
             applySortingAndFiltering()
         }
@@ -199,7 +199,7 @@ class WorkViewModel @Inject constructor(
 
     suspend fun addWorkEntry(entry: WorkEntry) {
         try {
-            repository.addWorkEntry(entry)
+            repository.addEntry(entry)
             _uiEvent.emit(UiEvent.ShowMessage("Entry added successfully"))
         } catch (e: Exception) {
             _uiEvent.emit(UiEvent.ShowMessage("Failed to add entry: ${e.message}"))
@@ -208,7 +208,7 @@ class WorkViewModel @Inject constructor(
 
     suspend fun updateWorkEntry(entry: WorkEntry) {
         try {
-            repository.updateWorkEntry(entry)
+            repository.updateEntry(entry)
             _uiEvent.emit(UiEvent.ShowMessage("Entry updated successfully"))
         } catch (e: Exception) {
             _uiEvent.emit(UiEvent.ShowMessage("Failed to update entry: ${e.message}"))
@@ -217,7 +217,7 @@ class WorkViewModel @Inject constructor(
 
     suspend fun deleteWorkEntry(entry: WorkEntry) {
         try {
-            repository.deleteWorkEntry(entry)
+            repository.deleteEntry(entry)
             _uiEvent.emit(UiEvent.ShowMessage("Entry deleted successfully"))
         } catch (e: Exception) {
             _uiEvent.emit(UiEvent.ShowMessage("Failed to delete entry: ${e.message}"))

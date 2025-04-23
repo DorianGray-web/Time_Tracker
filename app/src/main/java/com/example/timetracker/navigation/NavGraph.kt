@@ -3,14 +3,16 @@ package com.example.timetracker.navigation
 import androidx.compose.animation.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navType.navArgument
-import androidx.navigation.navType.navType
+import androidx.navigation.navArgument
 import com.example.timetracker.ui.screens.MainScreen
 import com.example.timetracker.ui.screens.WorkEntryFormScreen
 import com.example.timetracker.ui.screens.EditEntryScreen
+import com.example.timetracker.ui.screens.SettingsScreen
+import com.example.timetracker.ui.screens.SplashScreen
 import com.example.timetracker.viewmodel.WorkViewModel
 
 sealed class Screen(val route: String) {
@@ -49,14 +51,11 @@ fun NavGraph(
         composable(Screen.Main.route) {
             MainScreen(
                 viewModel = viewModel,
-                onAddWorkEntry = {
-                    navController.navigate(Screen.AddWorkEntry.route)
-                },
-                onEditEntry = { entryId ->
-                    navController.navigate(Screen.EditWorkEntry.createRoute(entryId))
-                },
-                onSettingsClick = {
+                onNavigateToSettings = {
                     navController.navigate(Screen.Settings.route)
+                },
+                onNavigateToDetails = { entryId ->
+                    navController.navigate(Screen.EditWorkEntry.createRoute(entryId))
                 }
             )
         }
@@ -83,24 +82,12 @@ fun NavGraph(
             arguments = listOf(navArgument("entryId") { type = NavType.IntType })
         ) { backStackEntry ->
             val entryId = backStackEntry.arguments?.getInt("entryId") ?: return@composable
-            WorkEntryFormScreen(
-                viewModel = viewModel,
-                entryId = entryId,
-                onNavigateBack = {
-                    navController.popBackStack()
-                }
-            )
-        }
-
-        composable(
-            route = "edit_entry/{entryId}",
-            arguments = listOf(
-                navArgument("entryId") { type = NavType.LongType }
-            )
-        ) { backStackEntry ->
             EditEntryScreen(
-                navController = navController,
-                entryId = backStackEntry.arguments?.getLong("entryId")
+                entryId = entryId,
+                onBack = {
+                    navController.popBackStack()
+                },
+                viewModel = viewModel
             )
         }
     }

@@ -12,15 +12,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.timetracker.model.WorkEntry
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.timetracker.domain.model.WorkEntry
 import com.example.timetracker.viewmodel.WorkViewModel
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun WorkEntryList(
     onEditClick: (WorkEntry) -> Unit,
-    viewModel: WorkViewModel = viewModel()
+    viewModel: WorkViewModel = hiltViewModel()
 ) {
     val workEntries by viewModel.workEntries.collectAsState()
     val selectedLanguage by viewModel.selectedLanguage.collectAsState()

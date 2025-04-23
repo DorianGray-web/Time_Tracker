@@ -41,6 +41,7 @@ fun MainScreen(
     
     val selectedEntry by viewModel.selectedEntry.collectAsState()
     val workEntries by viewModel.workEntries.collectAsState()
+    val filterOptions by viewModel.filterOptions.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
@@ -59,12 +60,18 @@ fun MainScreen(
                         .weight(0.4f)
                         .fillMaxHeight()
                 ) {
-                    EntriesList(
-                        entries = workEntries,
-                        selectedEntryId = selectedEntry?.id,
-                        onEntryClick = { viewModel.selectEntry(it.id) },
-                        onAddClick = { viewModel.createNewEntry() }
-                    )
+                    Column {
+                        FilterControls(
+                            filterOptions = filterOptions,
+                            updateFilterOptions = viewModel::updateFilterOptions
+                        )
+                        EntriesList(
+                            entries = workEntries,
+                            selectedEntryId = selectedEntry?.id,
+                            onEntryClick = { viewModel.selectEntry(it.id) },
+                            onAddClick = { viewModel.createNewEntry() }
+                        )
+                    }
                 }
 
                 // Divider

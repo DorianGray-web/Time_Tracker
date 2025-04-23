@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.timetracker.R
 import com.example.timetracker.domain.model.SortField
 import com.example.timetracker.domain.model.SortOrder
@@ -17,7 +17,7 @@ import com.example.timetracker.domain.model.SortOptions
 import com.example.timetracker.viewmodel.MainViewModel
 
 @Composable
-fun SortControls(viewModel: MainViewModel = viewModel()) {
+fun SortControls(viewModel: MainViewModel = hiltViewModel()) {
     var showSortDialog by remember { mutableStateOf(false) }
     val sortOptions by viewModel.sortOptions.collectAsState()
 

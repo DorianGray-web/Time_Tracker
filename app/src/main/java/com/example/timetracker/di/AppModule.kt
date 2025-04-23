@@ -3,12 +3,14 @@ package com.example.timetracker.di
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import com.example.timetracker.database.TimeTrackerDatabase
-import com.example.timetracker.database.TimeEntryDao
-import com.example.timetracker.repository.TimeRepository
-import com.example.timetracker.datastore.PreferencesManager
-import com.example.timetracker.utils.LocaleUtils
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import com.example.timetracker.data.local.TimeTrackerDatabase
+import com.example.timetracker.data.local.dao.WorkEntryDao
+import com.example.timetracker.data.PreferencesManager
+import com.example.timetracker.data.preferences.ThemePreferences
+import com.example.timetracker.data.preferences.LanguagePreferences
+import com.example.timetracker.data.datastore.SettingsDataStore
+import com.example.timetracker.data.repository.WorkRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,54 +19,59 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import androidx.room.Room
 
-private val Context.dataStore by preferencesDataStore(name = "settings")
-
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides
     @Singleton
-    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
-        context.dataStore
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            produceFile = { context.filesDir.resolve("datastore/settings.preferences_pb") }
+        )
+    }
 
     @Provides
     @Singleton
     fun providePreferencesManager(
-        @ApplicationContext context: Context,
-        dataStore: DataStore<Preferences>
-    ): PreferencesManager = PreferencesManager(context, dataStore)
-
-    @Provides
-    @Singleton
-    fun provideDatabase(
         @ApplicationContext context: Context
-    ): TimeTrackerDatabase {
-        return Room.databaseBuilder(
-            context,
-            TimeTrackerDatabase::class.java,
-            TimeTrackerDatabase.DATABASE_NAME
-        )
-            .fallbackToDestructiveMigration()
-            .build()
+    ): PreferencesManager = PreferencesManager(context)
+
+    @Provides
+    @Singleton
+    fun provideThemePreferences(preferencesManager: PreferencesManager): ThemePreferences {
+        return ThemePreferences(preferencesManager)
     }
 
     @Provides
     @Singleton
-    fun provideTimeEntryDao(database: TimeTrackerDatabase): TimeEntryDao {
-        return database.timeEntryDao()
+    fun provideLanguagePreferences(preferencesManager: PreferencesManager): LanguagePreferences {
+        return LanguagePreferences(preferencesManager)
     }
 
     @Provides
     @Singleton
-    fun provideTimeRepository(
-        @ApplicationContext context: Context,
-        timeEntryDao: TimeEntryDao
-    ): TimeRepository {
-        return TimeRepository(context, timeEntryDao)
+    fun provideSettingsDataStore(
+        @ApplicationContext context: Context
+    ): SettingsDataStore {
+        return SettingsDataStore(context)
     }
 
     @Provides
     @Singleton
-    fun provideLocaleUtils(): LocaleUtils = LocaleUtils()
+    fun provideDatabase(@ApplicationContext context: Context): TimeTrackerDatabase {
+        return TimeTrackerDatabase.getInstance(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWorkEntryDao(database: TimeTrackerDatabase): WorkEntryDao {
+        return database.workEntryDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWorkRepository(workEntryDao: WorkEntryDao): WorkRepository {
+        return WorkRepository(workEntryDao)
+    }
 } 

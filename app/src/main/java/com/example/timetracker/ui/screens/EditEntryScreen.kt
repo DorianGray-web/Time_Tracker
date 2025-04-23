@@ -1,106 +1,73 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.timetracker.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.example.timetracker.R
-import com.example.timetracker.domain.model.WorkEntry
-import com.example.timetracker.viewmodel.MainViewModel
+import com.example.timetracker.ui.components.EntryForm
+import com.example.timetracker.viewmodel.WorkViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditEntryScreen(
-    navController: NavController,
-    entryId: Long?,
-    viewModel: MainViewModel = hiltViewModel()
+    entryId: Int,
+    onBack: () -> Unit,
+    viewModel: WorkViewModel = hiltViewModel()
 ) {
-    var showDeleteDialog by remember { mutableStateOf(false) }
-    var entry by remember { mutableStateOf<WorkEntry?>(null) }
+    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = scaffoldState.snackbarHostState
+    val message by viewModel.snackbarMessage.collectAsState(null)
 
-    LaunchedEffect(entryId) {
-        entryId?.let { id ->
-            viewModel.getEntry(id)?.let { workEntry ->
-                entry = workEntry
-            }
+    // Show Snackbar when message is emitted
+    LaunchedEffect(message) {
+        message?.let { text ->
+            snackbarHostState.showSnackbar(text)
+            viewModel.clearSnackbarMessage()
         }
     }
 
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.edit_entry_title)) },
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = stringResource(R.string.cd_navigation_back)
-                        )
-                    }
-                },
-                actions = {
                     IconButton(
-                        onClick = { showDeleteDialog = true },
-                        modifier = Modifier.semantics { contentDescription = stringResource(R.string.cd_delete_entry_button) }
+                        onClick = onBack,
+                        modifier = Modifier.semantics { 
+                            contentDescription = stringResource(R.string.cd_back_button)
+                        }
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = stringResource(R.string.delete_entry_button)
-                        )
+                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
                     }
                 }
             )
-        }
-    ) { padding ->
+        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
+                .padding(paddingValues)
                 .padding(16.dp)
-                .semantics { contentDescription = stringResource(R.string.cd_edit_entry_screen) }
         ) {
-            entry?.let { workEntry ->
-                EntryForm(
-                    initialEntry = workEntry,
-                    onSave = { updatedEntry ->
-                        viewModel.updateEntry(updatedEntry)
-                        navController.navigateUp()
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+            EntryForm(
+                entryId = entryId,
+                onSubmit = { formData ->
+                    viewModel.updateEntry(entryId, formData)
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
         }
-    }
-
-    if (showDeleteDialog) {
-        AlertDialog(
-            onDismissRequest = { showDeleteDialog = false },
-            title = { Text(stringResource(R.string.confirm_delete_title)) },
-            text = { Text(stringResource(R.string.confirm_delete_message)) },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        entryId?.let { id ->
-                            viewModel.deleteEntry(id)
-                            navController.navigateUp()
-                        }
-                    }
-                ) {
-                    Text(stringResource(R.string.button_ok))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showDeleteDialog = false }) {
-                    Text(stringResource(R.string.button_cancel))
-                }
-            },
-            modifier = Modifier.semantics { contentDescription = stringResource(R.string.cd_confirm_delete_dialog) }
-        )
     }
 } 

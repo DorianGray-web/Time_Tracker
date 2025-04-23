@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.timetracker.ui.components
 
 import androidx.compose.foundation.layout.*
@@ -9,28 +11,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.timetracker.R
 import com.example.timetracker.domain.model.FilterOptions
 import com.example.timetracker.domain.model.FilterType
 import com.example.timetracker.viewmodel.MainViewModel
 import java.time.LocalDate
 
+/**
+ * @param filterOptions — текущее состояние фильтров
+ * @param updateFilterOptions — лямбда для изменения фильтров
+ */
 @Composable
-fun FilterControls(viewModel: MainViewModel = viewModel()) {
+fun FilterControls(
+    filterOptions: FilterOptions,
+    updateFilterOptions: (FilterOptions) -> Unit,
+    modifier: Modifier = Modifier
+) {
     var showDateRangePicker by remember { mutableStateOf(false) }
     var showWeekPicker by remember { mutableStateOf(false) }
     var showProjectFilter by remember { mutableStateOf(false) }
     var showClientFilter by remember { mutableStateOf(false) }
     
-    val filterOptions by viewModel.filterOptions.collectAsState()
+    val viewModel: MainViewModel = hiltViewModel()
     val filterType by viewModel.filterType.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
+    Column(modifier) {
         Text(
             text = stringResource(R.string.filter),
             style = MaterialTheme.typography.titleMedium,
@@ -78,7 +84,10 @@ fun FilterControls(viewModel: MainViewModel = viewModel()) {
                 style = MaterialTheme.typography.bodyMedium
             )
             Button(
-                onClick = { showDateRangePicker = true }
+                onClick = { showDateRangePicker = true },
+                modifier = Modifier
+                    .semantics { contentDescription = stringResource(R.string.select_date_range) }
+                    .padding(8.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.DateRange,
@@ -102,7 +111,10 @@ fun FilterControls(viewModel: MainViewModel = viewModel()) {
                 style = MaterialTheme.typography.bodyMedium
             )
             Button(
-                onClick = { showWeekPicker = true }
+                onClick = { showWeekPicker = true },
+                modifier = Modifier
+                    .semantics { contentDescription = stringResource(R.string.select_week) }
+                    .padding(8.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.CalendarToday,
@@ -126,7 +138,10 @@ fun FilterControls(viewModel: MainViewModel = viewModel()) {
                 style = MaterialTheme.typography.bodyMedium
             )
             Button(
-                onClick = { showProjectFilter = true }
+                onClick = { showProjectFilter = true },
+                modifier = Modifier
+                    .semantics { contentDescription = stringResource(R.string.filter_by_project) }
+                    .padding(8.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Work,
@@ -150,7 +165,10 @@ fun FilterControls(viewModel: MainViewModel = viewModel()) {
                 style = MaterialTheme.typography.bodyMedium
             )
             Button(
-                onClick = { showClientFilter = true }
+                onClick = { showClientFilter = true },
+                modifier = Modifier
+                    .semantics { contentDescription = stringResource(R.string.filter_by_client) }
+                    .padding(8.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Person,
@@ -171,7 +189,7 @@ fun FilterControls(viewModel: MainViewModel = viewModel()) {
             FilterChip(
                 selected = filterOptions.showOvertime,
                 onClick = {
-                    viewModel.updateFilterOptions(
+                    updateFilterOptions(
                         filterOptions.copy(showOvertime = !filterOptions.showOvertime)
                     )
                 },
@@ -180,7 +198,7 @@ fun FilterControls(viewModel: MainViewModel = viewModel()) {
             FilterChip(
                 selected = filterOptions.showOnlyWithPhotos,
                 onClick = {
-                    viewModel.updateFilterOptions(
+                    updateFilterOptions(
                         filterOptions.copy(showOnlyWithPhotos = !filterOptions.showOnlyWithPhotos)
                     )
                 },
@@ -193,7 +211,7 @@ fun FilterControls(viewModel: MainViewModel = viewModel()) {
             DateRangePickerDialog(
                 onDismiss = { showDateRangePicker = false },
                 onDateRangeSelected = { start, end ->
-                    viewModel.updateFilterOptions(
+                    updateFilterOptions(
                         filterOptions.copy(
                             startDate = start,
                             endDate = end
@@ -207,9 +225,9 @@ fun FilterControls(viewModel: MainViewModel = viewModel()) {
         // Week Picker Dialog
         if (showWeekPicker) {
             WeekPickerDialog(
-                onDismiss = { showWeekPicker = false },
+                initialWeek = filterOptions.weekNumber,
                 onWeekSelected = { week ->
-                    viewModel.updateFilterOptions(
+                    updateFilterOptions(
                         filterOptions.copy(weekNumber = week)
                     )
                     showWeekPicker = false
@@ -223,7 +241,7 @@ fun FilterControls(viewModel: MainViewModel = viewModel()) {
                 title = stringResource(R.string.filter_by_project),
                 onDismiss = { showProjectFilter = false },
                 onTextSelected = { project ->
-                    viewModel.updateFilterOptions(
+                    updateFilterOptions(
                         filterOptions.copy(projectName = project)
                     )
                     showProjectFilter = false
@@ -237,7 +255,7 @@ fun FilterControls(viewModel: MainViewModel = viewModel()) {
                 title = stringResource(R.string.filter_by_client),
                 onDismiss = { showClientFilter = false },
                 onTextSelected = { client ->
-                    viewModel.updateFilterOptions(
+                    updateFilterOptions(
                         filterOptions.copy(clientName = client)
                     )
                     showClientFilter = false
@@ -245,4 +263,22 @@ fun FilterControls(viewModel: MainViewModel = viewModel()) {
             )
         }
     }
+}
+
+/** Снова, заглушки — нужно заменить на свой диалог */
+@Composable
+private fun WeekPickerDialog(
+    initialWeek: Int?,
+    onWeekSelected: (Int?) -> Unit
+) {
+    // здесь ваш код диалога. Пока пустая заглушка:
+}
+
+@Composable
+private fun TextFilterDialog(
+    title: String,
+    onDismiss: () -> Unit,
+    onTextSelected: (String) -> Unit
+) {
+    // здесь ваш код диалога. Пока пустая заглушка:
 } 

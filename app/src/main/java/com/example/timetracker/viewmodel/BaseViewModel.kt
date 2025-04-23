@@ -60,4 +60,24 @@ open class BaseViewModel @Inject constructor(
     protected fun showInfo(message: String) {
         uiMessageManager.showInfo(message)
     }
+
+    val uiMessage: StateFlow<String?> = uiMessageManager.message.asStateFlow()
+
+    protected fun logError(message: String, throwable: Throwable? = null) {
+        Timber.e(throwable, message)
+        uiMessageManager.emitMessage(message)
+    }
+}
+
+class UiMessageManager {
+    private val _message = MutableStateFlow<String?>(null)
+    val message: StateFlow<String?> = _message.asStateFlow()
+
+    fun emitMessage(message: String) {
+        _message.value = message
+    }
+
+    fun clearMessage() {
+        _message.value = null
+    }
 } 

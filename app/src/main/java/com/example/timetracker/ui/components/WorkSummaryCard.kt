@@ -7,14 +7,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.timetracker.R
 import com.example.timetracker.viewmodel.MainViewModel
 import java.text.NumberFormat
 import java.util.*
 
 @Composable
-fun WorkSummaryCard(viewModel: MainViewModel = viewModel()) {
+fun WorkSummaryCard(viewModel: MainViewModel = hiltViewModel()) {
     val summary by viewModel.summary.collectAsState()
     val currencyFormat = remember { NumberFormat.getCurrencyInstance(Locale.getDefault()) }
 
