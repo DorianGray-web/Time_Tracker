@@ -3,6 +3,7 @@ package com.example.timetracker.data.local.dao
 import androidx.room.*
 import com.example.timetracker.data.local.entity.WorkEntryEntity
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 @Dao
 interface WorkEntryDao {
@@ -13,10 +14,10 @@ interface WorkEntryDao {
     suspend fun getEntry(entryId: Long): WorkEntryEntity?
 
     @Query("SELECT * FROM work_entries WHERE date BETWEEN :startDate AND :endDate")
-    suspend fun getEntriesForDateRange(startDate: Long, endDate: Long): List<WorkEntryEntity>
+    suspend fun getEntriesForDateRange(startDate: LocalDate, endDate: LocalDate): List<WorkEntryEntity>
 
     @Query("SELECT * FROM work_entries WHERE date = :date")
-    suspend fun getEntriesForDate(date: Long): List<WorkEntryEntity>
+    suspend fun getEntriesForDate(date: LocalDate): List<WorkEntryEntity>
 
     @Query("SELECT * FROM work_entries")
     suspend fun getAllEntriesList(): List<WorkEntryEntity>

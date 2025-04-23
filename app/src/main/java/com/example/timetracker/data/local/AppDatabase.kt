@@ -103,14 +103,30 @@ abstract class AppDatabase : RoomDatabase() {
 
         val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                // Add date column to work_entries table
-                database.execSQL("ALTER TABLE work_entries ADD COLUMN date INTEGER NOT NULL DEFAULT 0")
-                
-                // Update existing entries to use the current date
+                // Create a new table with the date column
                 database.execSQL("""
-                    UPDATE work_entries 
-                    SET date = CAST(strftime('%s', 'now') AS INTEGER)
+                    CREATE TABLE work_entries_new (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                        startTime TEXT NOT NULL,
+                        endTime TEXT NOT NULL,
+                        date INTEGER NOT NULL,
+                        workTypeId INTEGER NOT NULL,
+                        description TEXT
+                    )
                 """.trimIndent())
+
+                // Copy data from old table to new, converting timestamps to dates
+                database.execSQL("""
+                    INSERT INTO work_entries_new (id, startTime, endTime, date, workTypeId, description)
+                    SELECT id, startTime, endTime, 
+                           CAST(strftime('%s', 'now') AS INTEGER), 
+                           workTypeId, description
+                    FROM work_entries
+                """.trimIndent())
+
+                // Drop old table and rename new one
+                database.execSQL("DROP TABLE work_entries")
+                database.execSQL("ALTER TABLE work_entries_new RENAME TO work_entries")
             }
         }
 
